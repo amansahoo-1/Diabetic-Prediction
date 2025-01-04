@@ -1,0 +1,92 @@
+<!-- Navbar -->
+<nav class="bg-gray-300 shadow-md fixed top-0 left-0 right-0">
+  <div class="container mx-auto px-4 py-2 flex items-center justify-between">
+    <!-- Brand -->
+    <a href="#" class="text-xl font-bold text-gray-800">Swasth</a>
+
+    <!-- Navbar links (Desktop & Larger Screens) -->
+    <div class="hidden lg:flex items-center space-x-6">
+      <a href="/home" class="text-lg text-black hover:text-blue-800">Home</a>
+      <a href="/setting" class="text-lg text-black hover:text-blue-800"
+        >Settings</a
+      >
+      <a href="/gallery" class="text-lg text-black hover:text-blue-800"
+        >Gallery</a
+      >
+      <a href="#" class="text-lg text-black hover:text-blue-800">About</a>
+      <a href="#" class="text-lg text-black hover:text-blue-800">Contact</a>
+    </div>
+
+    <!-- Search form (Desktop & Larger Screens) -->
+    <form action="#" method="get" class="hidden lg:flex items-center space-x-2">
+      <input
+        type="text"
+        placeholder="Search"
+        class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+      />
+      <button
+        type="submit"
+        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 focus:outline-none"
+      >
+        Search
+      </button>
+    </form>
+
+    <!-- Mobile Menu (Hamburger) -->
+    <div class="lg:hidden flex items-center space-x-4">
+      <button id="menu-toggle" class="text-black">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu (Hidden by default) -->
+  <div
+    id="mobile-menu"
+    class="lg:hidden flex flex-col space-y-2 px-4 py-2 bg-gray-300"
+  >
+    <a href="/home" class="text-lg text-black hover:text-blue-800">Home</a>
+    <a href="/setting" class="text-lg text-black hover:text-blue-800"
+      >Settings</a
+    >
+    <a href="/gallery" class="text-lg text-black hover:text-blue-800"
+      >Gallery</a
+    >
+    <a href="#" class="text-lg text-black hover:text-blue-800">About</a>
+    <a href="#" class="text-lg text-black hover:text-blue-800">Contact</a>
+    <form action="#" method="get" class="flex items-center space-x-2">
+      <input
+        type="text"
+        placeholder="Search"
+        class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+      />
+      <button
+        type="submit"
+        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 focus:outline-none"
+      >
+        Search
+      </button>
+    </form>
+  </div>
+</nav>
+
+<script>
+  // Toggle mobile menu visibility
+  document.getElementById("menu-toggle").addEventListener("click", () => {
+    const mobileMenu = document.getElementById("mobile-menu");
+    mobileMenu.classList.toggle("hidden");
+  });
+</script>

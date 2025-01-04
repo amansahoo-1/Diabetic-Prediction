@@ -1,0 +1,134 @@
+<% layout("/layouts/boilerplate") %>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+  <div class="w-full max-w-4xl bg-white shadow-2xl rounded-lg p-8 space-y-8">
+    <h1 class="text-4xl font-extrabold text-gray-800 text-center mb-8">
+      Enter Features for Prediction
+    </h1>
+    <form action="/predict" method="POST" id="predictionForm">
+      <div class="space-y-6">
+        <div class="form-group">
+          <label
+            for="pregnancies"
+            class="block text-sm font-medium text-gray-700"
+            >Pregnancies:</label
+          >
+          <input
+            type="number"
+            id="pregnancies"
+            name="pregnancies"
+            class="form-control w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="glucose" class="block text-sm font-medium text-gray-700"
+            >Glucose:</label
+          >
+          <input
+            type="number"
+            id="glucose"
+            name="glucose"
+            class="form-control w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label
+            for="bloodPressure"
+            class="block text-sm font-medium text-gray-700"
+            >Blood Pressure:</label
+          >
+          <input
+            type="number"
+            id="bloodPressure"
+            name="bloodPressure"
+            class="form-control w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label
+            for="skinThickness"
+            class="block text-sm font-medium text-gray-700"
+            >Skin Thickness:</label
+          >
+          <input
+            type="number"
+            id="skinThickness"
+            name="skinThickness"
+            class="form-control w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="insulin" class="block text-sm font-medium text-gray-700"
+            >Insulin:</label
+          >
+          <input
+            type="number"
+            id="insulin"
+            name="insulin"
+            class="form-control w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="bmi" class="block text-sm font-medium text-gray-700"
+            >BMI:</label
+          >
+          <input
+            type="number"
+            id="bmi"
+            name="bmi"
+            class="form-control w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            step="0.1"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label
+            for="diabetesFunction"
+            class="block text-sm font-medium text-gray-700"
+            >Diabetic Prediction Function:</label
+          >
+          <input
+            type="number"
+            id="diabetesFunction"
+            name="diabetesFunction"
+            class="form-control w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            step="0.001"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="age" class="block text-sm font-medium text-gray-700"
+            >Age:</label
+          >
+          <input
+            type="number"
+            id="age"
+            name="age"
+            class="form-control w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            required
+          />
+        </div>
+
+        <div class="text-center">
+          <button
+            type="submit"
+            class="w-full py-4 bg-indigo-600 text-white text-lg font-semibold rounded-md shadow-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transform hover:scale-105 transition duration-200"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</body>

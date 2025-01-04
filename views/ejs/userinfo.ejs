@@ -1,0 +1,141 @@
+<% layout("/layouts/boilerplate") %>
+<div class="bg-white grid grid-cols-3 min-h-screen">
+  <!-- Sidebar -->
+  <div class="bg-gray-300 p-6">
+    <h1 class="text-lg font-semibold text-gray-800">User Information</h1>
+  </div>
+
+  <!-- Form Section -->
+  <div class="col-span-2 flex justify-center items-center bg-gray-50">
+    <div class="p-8 bg-white shadow-xl rounded-lg w-3/4">
+      <form action="/userinfo" method="POST" class="space-y-6">
+        <div class="grid grid-cols-2 gap-6">
+          <!-- Name -->
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2"
+              >Name:</label
+            >
+            <input
+              type="text"
+              name="name"
+              value="<%= userInfo ? userInfo.name : '' %>"
+              class="block w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500"
+              required
+            />
+          </div>
+
+          <!-- Sex -->
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2"
+              >Sex:</label
+            >
+            <input
+              type="text"
+              name="sex"
+              value="<%= userInfo ? userInfo.sex : '' %>"
+              class="block w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500"
+              required
+            />
+          </div>
+
+          <!-- Age -->
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2"
+              >Age:</label
+            >
+            <input
+              type="number"
+              name="age"
+              value="<%= userInfo ? userInfo.age : '' %>"
+              class="block w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500"
+              required
+            />
+          </div>
+
+          <!-- Date of Birth -->
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2"
+              >Date of Birth:</label
+            >
+            <input
+              type="number"
+              name="dob"
+              value="<%= userInfo ? userInfo.dob : '' %>"
+              class="block w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500"
+              required
+            />
+          </div>
+
+          <!-- Weight -->
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2"
+              >Weight:</label
+            >
+            <input
+              type="number"
+              name="weight"
+              value="<%= userInfo ? userInfo.weight : '' %>"
+              class="block w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500"
+              required
+            />
+          </div>
+
+          <!-- Height -->
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2"
+              >Height:</label
+            >
+            <input
+              type="number"
+              name="height"
+              value="<%= userInfo ? userInfo.height : '' %>"
+              class="block w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500"
+              required
+            />
+          </div>
+
+          <!-- Contact Info -->
+          <div class="col-span-2">
+            <label class="block text-sm font-semibold text-gray-700 mb-2"
+              >Contact Info:</label
+            >
+            <input
+              type="number"
+              name="contact_info"
+              value="<%= userInfo ? userInfo.contact_info : '' %>"
+              class="block w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500"
+              required
+            />
+          </div>
+
+          <!-- Address -->
+          <div class="col-span-2">
+            <label class="block text-sm font-semibold text-gray-700 mb-2"
+              >Address:</label
+            >
+            <input
+              type="text"
+              name="address"
+              value="<%= userInfo ? userInfo.address : '' %>"
+              class="block w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500"
+              required
+            />
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          class="w-full bg-indigo-600 text-white py-3 px-6 rounded-lg shadow hover:bg-indigo-700 transition"
+        >
+          Save
+        </button>
+      </form>
+      <a
+        href="/logout"
+        class="mt-6 block text-center text-sm text-indigo-500 hover:underline"
+      >
+        Logout
+      </a>
+    </div>
+  </div>
+</div>

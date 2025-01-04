@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SWASTH</title>
+    <link rel="stylesheet" href="/css/tailwind.css" />
+  </head>
+  <body class="flex flex-col min-h-screen">
+    <!-- Navbar -->
+    <%- include("../includes/navbar.ejs") %>
+
+    <!-- Main Content -->
+    <main class="flex-grow container w-auto h-auto pl-2 ml-28 mt-16">
+      <%- body %>
+    </main>
+
+    <!-- Footer -->
+    <%- include("../includes/footer.ejs") %>
+  </body>
+</html>

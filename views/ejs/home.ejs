@@ -1,0 +1,124 @@
+<% layout("/layouts/boilerplate") %>
+<body>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 h-auto w-auto p-4">
+    <!-- Left Frame -->
+    <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+      <form id="gemini-form" class="space-y-4">
+        <label for="search_api" class="block text-gray-700 font-semibold">
+          Enter your prompt for Gemini search:
+        </label>
+        <textarea
+          name="prompt"
+          id="search_api"
+          placeholder="Type your query here..."
+          required
+          rows="4"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+        ></textarea>
+        <div class="flex justify-between">
+          <button
+            type="submit"
+            class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 focus:outline-none"
+          >
+            Search
+          </button>
+          <button
+            type="reset"
+            class="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500 focus:outline-none"
+          >
+            Clear
+          </button>
+        </div>
+      </form>
+      <label
+        for="gemini-results"
+        class="block mt-4 text-gray-700 font-semibold"
+      >
+        Search Results:
+      </label>
+      <textarea
+        id="gemini-results"
+        rows="12"
+        class="mt-2 text-gray-700 text-sm h-auto w-full border border-gray-300 rounded-lg resize-none bg-gray-100 p-2"
+        placeholder="Results will appear here..."
+        readonly
+      ></textarea>
+      <div id="loading-spinner" class="hidden text-center mt-2">
+        <span class="text-blue-600">Loading...</span>
+      </div>
+    </div>
+
+    <!-- Right Frame -->
+    <div class="bg-gray-50 p-6 rounded-lg shadow-md flex flex-col items-center">
+      <h4 class="text-xl text-gray-700 font-semibold mb-4">
+        Hello, <%= user.name %>!
+      </h4>
+      <img
+        class="h-64 w-60"
+        src="https://thumbs.dreamstime.com/z/world-diabetes-day-awareness-poster-blood-drip-symbol-blue-circle-ring-frame-logo-255865448.jpg"
+        alt="Diabetic Logo"
+      />
+      <div class="flex gap-20 mt-24">
+        <form action="/userinfo" method="GET">
+          <button
+            type="submit"
+            class="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500 focus:outline-none"
+          >
+            User Info
+          </button>
+        </form>
+        <form action="/predict" method="GET">
+          <button
+            type="submit"
+            class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 focus:outline-none"
+          >
+            Predict
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document
+      .getElementById("gemini-form")
+      .addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const resultsDiv = document.getElementById("gemini-results");
+        const spinner = document.getElementById("loading-spinner");
+        resultsDiv.value = "Searching...";
+        spinner.classList.remove("hidden");
+
+        const prompt = document.getElementById("search_api").value.trim();
+        if (!prompt) {
+          resultsDiv.value = "Please enter a valid prompt.";
+          spinner.classList.add("hidden");
+          return;
+        }
+
+        try {
+          const response = await fetch("/gemini-search", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ prompt }),
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+          const data = await response.json();
+          if (data.success) {
+            resultsDiv.value = `Result:\n${data.result}`;
+          } else {
+            resultsDiv.value = `Error: ${data.error}`;
+          }
+        } catch (error) {
+          resultsDiv.value = "An unexpected error occurred. Please try again.";
+          console.error(error);
+        } finally {
+          spinner.classList.add("hidden");
+        }
+      });
+  </script>
+</body>
