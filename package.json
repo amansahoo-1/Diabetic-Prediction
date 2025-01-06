@@ -2,25 +2,26 @@
   "name": "swasth",
   "version": "1.0.0",
   "main": "app.js",
-"scripts": {
-  "start": "nodemon app.js",
-  "build:css": "tailwindcss -i ./public/css/styles.css -o ./public/css/tailwind.css",
-  "watch:css": "tailwindcss -i ./public/css/styles.css -o ./public/css/tailwind.css --watch",
-  "dev": "concurrently \"npm run watch:css\" \"nodemon app.js\""
-}
-,
+  "scripts": {
+    "start": "nodemon app.js",
+    "build:css": "tailwindcss -i ./public/css/styles.css -o ./public/css/tailwind.css",
+    "watch:css": "tailwindcss -i ./public/css/styles.css -o ./public/css/tailwind.css --watch",
+    "dev": "concurrently \"npm run watch:css\" \"nodemon app.js\""
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "This repository contains a web application for predicting diabetes, combining both Node.js and Python servers to handle various functionalities.",
   "dependencies": {
     "@google/generative-ai": "^0.21.0",
     "axios": "^1.7.7",
     "body-parser": "^1.20.3",
+    "connect-flash": "^0.1.1",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "ejs-mate": "^4.0.0",
     "express": "^4.21.1",
+    "express-rate-limit": "^7.5.0",
     "express-session": "^1.18.1",
     "install": "^0.13.0",
     "method-override": "^3.0.0",

@@ -12,6 +12,8 @@ const User = require("./models/user");
 const UserInfo = require("./models/userinfo");
 const predictionRouter = require("./routes/predict");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
+const rateLimit = require("express-rate-limit");
+const flash = require("connect-flash");
 
 dotenv.config(); // Load environment variables
 
@@ -58,10 +60,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Session Configuration
 app.use(
   session({
-    secret: "swasth_secret",
+    secret: process.env.SESSION_SECRET || "swasth_secret",
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 600000 }, // 10-minute session expiry
+    cookie: {
+      maxAge: 600000, // 10-minute session expiry
+      secure: process.env.NODE_ENV === "production", // Set secure cookies in production
+      httpOnly: true, // Prevent client-side access to cookies
+    },
   })
 );
 
@@ -71,6 +77,9 @@ app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+// Flash Messages
+app.use(flash());
 
 // Middleware for Authorization
 function isLoggedIn(req, res, next) {
@@ -104,7 +113,8 @@ app.get("/", (req, res) => {
 
 // Signup Page
 app.get("/signup", (req, res) => {
-  res.render("ejs/signup");
+  const errorMessage = req.flash("error") || ""; // Get flash error
+  res.render("ejs/signup", { errorMessage });
 });
 
 // Signup Route
@@ -115,17 +125,20 @@ app.post("/signup", async (req, res, next) => {
     await User.register(user, password);
     req.login(user, (err) => {
       if (err) return next(err);
+      req.flash("success", "Successfully signed up!"); // Set success message
       res.redirect("/home");
     });
   } catch (error) {
     console.error(error);
+    req.flash("error", "Error during signup. Please try again.");
     res.redirect("/signup");
   }
 });
 
 // Signin Page
 app.get("/signin", (req, res) => {
-  res.render("ejs/signin");
+  const errorMessage = req.flash("error") || ""; // Get flash error
+  res.render("ejs/signin", { errorMessage });
 });
 
 // Signin Route
@@ -136,6 +149,7 @@ app.post(
     failureMessage: true,
   }),
   (req, res) => {
+    req.flash("success", "Successfully logged in!"); // Set success message
     res.redirect("/home");
   }
 );
@@ -158,7 +172,14 @@ app.get("/gallery", isLoggedIn, (req, res) => {
 // User Info Page
 app.get("/userinfo", isLoggedIn, async (req, res) => {
   const userInfo = await UserInfo.findOne({ userId: req.user._id });
-  res.render("ejs/userinfo", { userInfo, user: req.user });
+  const errorMessage = req.flash("error") || ""; // Fetch error message (if any)
+  const successMessage = req.flash("success") || ""; // Fetch success message (if any)
+  res.render("ejs/userinfo", {
+    userInfo,
+    user: req.user,
+    errorMessage, // Pass error message
+    successMessage, // Pass success message
+  });
 });
 
 // Save or Update User Info
@@ -167,34 +188,43 @@ app.post("/userinfo", isLoggedIn, async (req, res) => {
     req.body;
   const userId = req.user._id;
 
-  let userInfo = await UserInfo.findOne({ userId });
-  if (userInfo) {
-    Object.assign(userInfo, {
-      name,
-      sex,
-      age,
-      dob,
-      weight,
-      height,
-      contact_info,
-      address,
-    });
-    await userInfo.save();
-  } else {
-    userInfo = new UserInfo({
-      userId,
-      name,
-      sex,
-      age,
-      dob,
-      weight,
-      height,
-      contact_info,
-      address,
-    });
-    await userInfo.save();
+  try {
+    let userInfo = await UserInfo.findOne({ userId });
+    if (userInfo) {
+      // Update existing user info
+      Object.assign(userInfo, {
+        name,
+        sex,
+        age,
+        dob,
+        weight,
+        height,
+        contact_info,
+        address,
+      });
+      await userInfo.save();
+    } else {
+      // Create new user info
+      userInfo = new UserInfo({
+        userId,
+        name,
+        sex,
+        age,
+        dob,
+        weight,
+        height,
+        contact_info,
+        address,
+      });
+      await userInfo.save();
+    }
+    req.flash("success", "User information saved successfully!"); // Set success message
+    res.redirect("/userinfo");
+  } catch (err) {
+    console.error(err);
+    req.flash("error", "Unable to save user data.");
+    res.redirect("/userinfo");
   }
-  res.redirect("/userinfo");
 });
 
 // Logout Route
@@ -208,6 +238,15 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("Something went wrong!");
 });
+
+// Rate Limiting for Signin and Signup routes
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+});
+
+app.use("/signin", limiter);
+app.use("/signup", limiter);
 
 // Start Server
 const PORT = process.env.PORT || 8080;
