@@ -154,9 +154,43 @@ app.post(
   }
 );
 
-// Home Page (Requires Authorization)
-app.get("/home", isLoggedIn, (req, res) => {
-  res.render("ejs/home", { user: req.user });
+//contact page
+app.get("/contact", isLoggedIn, (req, res) => {
+  res.render("ejs/contact", { user: req.user });
+});
+
+//contact page
+app.get("/about", isLoggedIn, (req, res) => {
+  res.render("ejs/about", { user: req.user });
+});
+
+// Route for the Terms & Conditions page
+app.get("/terms", isLoggedIn, (req, res) => {
+  res.render("ejs/terms", { user: req.user });
+});
+
+// Route for the Privacy Policy page
+app.get("/privacy", isLoggedIn, (req, res) => {
+  res.render("ejs/privacy", { user: req.user });
+});
+
+//home page
+app.get("/home", isLoggedIn, async (req, res) => {
+  try {
+    const userInfo = await UserInfo.findOne({ userId: req.user._id });
+    if (!userInfo) {
+      req.flash(
+        "error",
+        "User information not found. Please update your profile."
+      );
+      return res.redirect("/userinfo");
+    }
+    res.render("ejs/home", { userInfo });
+  } catch (err) {
+    console.error(err);
+    req.flash("error", "An error occurred while fetching user information.");
+    res.redirect("/userinfo");
+  }
 });
 
 // Settings Page
@@ -183,13 +217,56 @@ app.get("/userinfo", isLoggedIn, async (req, res) => {
 });
 
 // Save or Update User Info
+// Save or Update User Info
 app.post("/userinfo", isLoggedIn, async (req, res) => {
   const { name, sex, age, dob, weight, height, contact_info, address } =
     req.body;
   const userId = req.user._id;
 
+  // Manual Validation
+  if (
+    !name ||
+    !sex ||
+    !age ||
+    !dob ||
+    !weight ||
+    !height ||
+    !contact_info ||
+    !address
+  ) {
+    req.flash("errorMessage", "All fields are required.");
+    return res.redirect("/userinfo");
+  }
+
+  if (!["Male", "Female", "Transgender"].includes(sex)) {
+    req.flash("errorMessage", "Invalid gender value.");
+    return res.redirect("/userinfo");
+  }
+
+  if (isNaN(age) || age < 0 || age > 150) {
+    req.flash("errorMessage", "Age must be a number between 0 and 150.");
+    return res.redirect("/userinfo");
+  }
+
+  if (isNaN(weight) || weight < 1) {
+    req.flash("errorMessage", "Weight must be a number greater than 0.");
+    return res.redirect("/userinfo");
+  }
+
+  if (isNaN(height) || height < 30 || height > 300) {
+    req.flash("errorMessage", "Height must be a number between 30 and 300.");
+    return res.redirect("/userinfo");
+  }
+
+  if (!/^\d{10}$/.test(contact_info)) {
+    req.flash("errorMessage", "Contact info must be a valid 10-digit number.");
+    return res.redirect("/userinfo");
+  }
+
   try {
+    // Find user info by userId
     let userInfo = await UserInfo.findOne({ userId });
+
     if (userInfo) {
       // Update existing user info
       Object.assign(userInfo, {
@@ -218,11 +295,16 @@ app.post("/userinfo", isLoggedIn, async (req, res) => {
       });
       await userInfo.save();
     }
-    req.flash("success", "User information saved successfully!"); // Set success message
+
+    // Success message
+    req.flash("successMessage", "User information saved successfully!");
     res.redirect("/userinfo");
   } catch (err) {
     console.error(err);
-    req.flash("error", "Unable to save user data.");
+    req.flash(
+      "errorMessage",
+      "Unable to save user data. Please try again later."
+    );
     res.redirect("/userinfo");
   }
 });

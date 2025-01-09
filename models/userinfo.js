@@ -39,7 +39,7 @@ const UserInfoSchema = new mongoose.Schema(
     contact_info: {
       type: String,
       required: true,
-      match: /^[0-9]{10,15}$/, // Matches a valid phone number (10-15 digits)
+      match: /^[0-9]{10}$/, // Matches a valid phone number (10 digits)
     },
     address: {
       type: String,
