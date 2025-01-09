@@ -309,10 +309,14 @@ app.post("/userinfo", isLoggedIn, async (req, res) => {
   }
 });
 
-// Logout Route
+//logout
 app.get("/logout", (req, res) => {
-  req.logout();
-  res.redirect("/");
+  req.logout((err) => {
+    if (err) {
+      return next(err); // Handle any error
+    }
+    res.render("ejs/logout"); // Render the logout page
+  });
 });
 
 // Error Handling Middleware

@@ -4,30 +4,144 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Swasth</title>
-    <!-- <link rel="stylesheet" href="/public/css/styles.css" /> -->
     <link rel="stylesheet" href="/css/tailwind.css" />
-  </head>
-  <body>
-    <div class="bg-white flex justify-around">
-      <div class="right bg-gray-300 h-[100vh] w-[100vh] px-9">
-        <p class="mx-3 my-10">SWASTH</p>
-        <P class="mx-[14vh] my-2 font-bold text-6xl">Welcome Back</P>
-        <p class="mx-[27vh] my-[10vh] text-lg">Signin to your Account</p>
-        <button
-          class="mx-[33vh] px-2 py-1 border border-black rounded-2xl hover:bg-white"
-        >
-          <a href="/signin" class="text-xl no-underline text-black">Signin</a>
-        </button>
-      </div>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/forms@0.5.3"></script>
+    <style>
+      /* Custom Animations */
+      .fadeIn {
+        animation: fadeIn 2s ease-out forwards;
+      }
 
-      <div class="left bg-gray-200 h-[100vh] w-[100vh]">
-        <p class="mx-[24vh] my-[10vh] text-7xl">New Here?</p>
-        <p class="mx-[26vh] text-lg">Signup & Discover your Health Status</p>
-        <button
-          class="mx-[40vh] my-[6vh] px-2 py-1 border border-black rounded-2xl hover:bg-white"
+      .scaleUp {
+        animation: scaleUp 1s ease-in-out;
+      }
+
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+        }
+
+        100% {
+          opacity: 1;
+        }
+      }
+
+      @keyframes scaleUp {
+        0% {
+          transform: scale(0.95);
+        }
+
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      /* Prevent scrolling */
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      .full-height {
+        height: 100vh;
+      }
+
+      .full-width {
+        width: 100vw;
+      }
+
+      /* Custom gradient background for branding */
+      .swasth-bg {
+        background: linear-gradient(145deg, #1c92d2, #f2fcfe);
+      }
+
+      .btn {
+        transition: background-color 0.3s ease, transform 0.2s ease;
+      }
+
+      .btn:hover {
+        background-color: #034d73;
+        transform: scale(1.1);
+      }
+
+      .center-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        text-align: center;
+      }
+
+      .section-card {
+        transition: transform 0.3s ease;
+      }
+
+      .section-card:hover {
+        transform: scale(1.05);
+      }
+    </style>
+  </head>
+
+  <body class="bg-gradient-to-r from-blue-200 to-blue-400">
+    <!-- Main Container with Background -->
+    <div
+      class="flex justify-center items-center h-full w-full bg-cover bg-center relative full-height full-width fadeIn"
+      style="
+        background-image: url('https://source.unsplash.com/1600x900/?health,wellness');
+      "
+    >
+      <!-- Overlay for text visibility -->
+      <div class="absolute inset-0 bg-black opacity-60"></div>
+
+      <div
+        class="center-content w-full max-w-6xl bg-white rounded-3xl shadow-2xl overflow-hidden relative scaleUp"
+      >
+        <!-- Swasth Branding -->
+        <div
+          class="w-full text-white text-6xl font-extrabold tracking-widest mb-12"
         >
-          <a href="/signup" class="text-xl no-underline text-black">Signup</a>
-        </button>
+          <p class="text-center text-gray-900">Swasth</p>
+        </div>
+
+        <!-- Signin and Signup Sections -->
+        <div class="flex justify-around space-x-10 w-full px-10 py-6">
+          <!-- Signin Section -->
+          <div
+            class="section-card bg-gray-300 w-1/3 p-8 rounded-2xl shadow-lg hoverEffect"
+          >
+            <p class="text-3xl font-extrabold text-gray-700 mb-4">
+              Welcome Back
+            </p>
+            <p class="text-lg text-gray-600 mb-6">
+              Signin to your Swasth account and track your health.
+            </p>
+            <a
+              href="/signin"
+              class="bg-green-500 text-white text-xl px-6 py-3 rounded-2xl btn"
+              >Signin</a
+            >
+          </div>
+
+          <!-- Signup Section -->
+          <div
+            class="section-card bg-gray-200 w-1/3 p-8 rounded-2xl shadow-lg hoverEffect"
+          >
+            <p class="text-3xl font-extrabold text-gray-700 mb-4">
+              New to Swasth?
+            </p>
+            <p class="text-lg text-gray-600 mb-6">
+              Signup to discover your personalized health journey.
+            </p>
+            <a
+              href="/signup"
+              class="bg-blue-500 text-white text-xl px-6 py-3 rounded-2xl btn"
+              >Signup</a
+            >
+          </div>
+        </div>
       </div>
     </div>
   </body>
