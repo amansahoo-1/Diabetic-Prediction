@@ -200,7 +200,7 @@ app.get("/setting", isLoggedIn, (req, res) => {
 
 // Gallery Page
 app.get("/gallery", isLoggedIn, (req, res) => {
-  res.render("ejs/gallery", { user: req.user });
+  res.render("ejs/gallery");
 });
 
 // User Info Page
