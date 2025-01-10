@@ -612,8 +612,16 @@ video {
   right: 0px;
 }
 
+.right-2 {
+  right: 0.5rem;
+}
+
 .top-0 {
   top: 0px;
+}
+
+.top-2 {
+  top: 0.5rem;
 }
 
 .col-span-2 {
@@ -662,12 +670,16 @@ video {
   margin-bottom: 2rem;
 }
 
+.ml-1 {
+  margin-left: 0.25rem;
+}
+
 .ml-28 {
   margin-left: 7rem;
 }
 
-.ml-40 {
-  margin-left: 10rem;
+.ml-44 {
+  margin-left: 11rem;
 }
 
 .ml-64 {
@@ -720,6 +732,10 @@ video {
 
 .hidden {
   display: none;
+}
+
+.h-2 {
+  height: 0.5rem;
 }
 
 .h-48 {
@@ -802,6 +818,20 @@ video {
 
 .animate-pulse {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 
 .resize-none {

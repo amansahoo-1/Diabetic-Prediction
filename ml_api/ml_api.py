@@ -6,7 +6,7 @@ import warnings
 app = Flask(__name__)
 
 # Load the model and scaler
-with open('diabetes_model.pkl', 'rb') as file:
+with open('refined_diabetes_model.pkl', 'rb') as file:
     data = pickle.load(file)
     model = data['model']
     scaler = data['scaler']

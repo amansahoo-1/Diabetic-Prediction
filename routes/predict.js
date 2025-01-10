@@ -10,26 +10,13 @@ router.get("/", (req, res) => {
 // Handle prediction form submission
 router.post("/", async (req, res) => {
   try {
-    const {
-      pregnancies,
-      glucose,
-      bloodPressure,
-      skinThickness,
-      insulin,
-      bmi,
-      diabetesFunction,
-      age,
-    } = req.body;
+    const { pregnancies, glucose, bloodPressure, age } = req.body;
 
     // Combine individual inputs into an array
     const inputFeatures = [
       Number(pregnancies),
       Number(glucose),
       Number(bloodPressure),
-      Number(skinThickness),
-      Number(insulin),
-      Number(bmi),
-      Number(diabetesFunction),
       Number(age),
     ];
 
